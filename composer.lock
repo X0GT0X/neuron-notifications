@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa4f924b41ba1f9d184496514667b337",
+    "content-hash": "dc5b7f6b7d2593fb59173c04f9de8aa3",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1491,6 +1491,56 @@
                 }
             ],
             "time": "2023-02-06T13:46:10+00:00"
+        },
+        {
+            "name": "neuron/building-blocks",
+            "version": "0.0.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/X0GT0X/neuron-building-blocks.git",
+                "reference": "53d1912dfd2243750b5dc5038721b44d49590c23"
+            },
+            "require": {
+                "php": ">=8.2.4",
+                "symfony/flex": "^2",
+                "symfony/framework-bundle": "6.2.*",
+                "symfony/messenger": "^6.2",
+                "symfony/property-access": "6.2.*",
+                "symfony/serializer": "^6.2",
+                "symfony/uid": "^6.2"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "symfony": {
+                    "allow-contrib": false,
+                    "require": "6.2.*"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Neuron\\BuildingBlocks\\": "src/"
+                }
+            },
+            "scripts": {
+                "auto-scripts": {
+                    "cache:clear": "symfony-cmd",
+                    "assets:install %PUBLIC_DIR%": "symfony-cmd"
+                },
+                "post-install-cmd": [
+                    "@auto-scripts"
+                ],
+                "post-update-cmd": [
+                    "@auto-scripts"
+                ]
+            },
+            "authors": [
+                {
+                    "name": "Andrii Vozniuk",
+                    "email": "a.vozniuk00@gmail.com"
+                }
+            ],
+            "description": "Building blocks for Neuron microservices",
+            "time": "2023-04-20T20:26:11+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",

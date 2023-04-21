@@ -1,0 +1,3 @@
+neuron_building_blocks:
+    integration_events_map:
+        MerchantCreated: App\IntegrationEvent\MerchantCreatedIntegrationEvent

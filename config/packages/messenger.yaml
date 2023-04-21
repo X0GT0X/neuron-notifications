@@ -10,16 +10,32 @@ framework:
             event.bus:
                 default_middleware: allow_no_handlers
             outbox.bus: ~
+            inbox.bus: ~
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             # failed: 'doctrine://default?queue_name=failed'
-            async: '%env(ASYNC_MESSENGER_TRANSPORT_DSN)%'
+            async:
+                dsn: '%env(ASYNC_MESSENGER_TRANSPORT_DSN)%'
+                serializer: Neuron\BuildingBlocks\Integration\IntegrationEventSerializer
+                options:
+                    exchange:
+                        name: integration_events
+                        type: topic
+                    queues:
+                        notifications:
+                            binding_keys:
+                                - notifications
             sync: 'sync://'
             outbox:
                 dsn: '%env(OUTBOX_TRANSPORT_DSN)%'
                 options:
                     table_name: outbox_messages
+                    auto_setup: false
+            inbox:
+                dsn: '%env(INBOX_TRANSPORT_DSN)%'
+                options:
+                    table_name: inbox_messages
                     auto_setup: false
 
         routing:
@@ -27,12 +43,14 @@ framework:
             App\Application\Contract\CommandInterface: sync
             App\Application\Contract\QueryInterface: sync
             App\BuildingBlocks\Application\Event\DomainEventNotificationInterface: outbox
-            App\BuildingBlocks\Infrastructure\Event\IntegrationEvent: async
+            App\Infrastructure\Configuration\Inbox\InboxMessage: inbox
+            Neuron\BuildingBlocks\Integration\SentIntegrationEventInterface: async
+            Neuron\BuildingBlocks\Integration\ReceivedIntegrationEventInterface: sync
 
 # when@test:
 #    framework:
 #        messenger:
 #            transports:
-#                # replace with your transport name here (e.g., my_transpor`t: 'in-memory://')
+#                # replace with your transport name here (e.g., my_transport: 'in-memory://')
 #                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
 #                async: 'in-memory://'
