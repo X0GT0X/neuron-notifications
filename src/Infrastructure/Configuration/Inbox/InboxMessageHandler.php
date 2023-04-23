@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Configuration\Inbox;
 
+use Neuron\BuildingBlocks\Infrastructure\Inbox\InboxMessage;
 use Neuron\BuildingBlocks\Integration\IntegrationEvent;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
-#[AsMessageHandler(fromTransport: 'inbox')]
+#[AsMessageHandler]
 final readonly class InboxMessageHandler
 {
     public function __construct(

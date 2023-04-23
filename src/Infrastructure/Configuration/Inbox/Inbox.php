@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Configuration\Inbox;
 
+use Neuron\BuildingBlocks\Infrastructure\Inbox\InboxInterface;
+use Neuron\BuildingBlocks\Infrastructure\Inbox\InboxMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final readonly class Inbox implements InboxInterface
