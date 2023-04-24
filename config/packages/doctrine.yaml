@@ -2,7 +2,9 @@ doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
         schema_filter: '~^(?!outbox_messages|inbox_messages)~'
-        types: ~
+        types:
+            merchant_id: App\Infrastructure\Configuration\Doctrine\Type\MerchantIdType
+            notification_settings_id: App\Infrastructure\Configuration\Doctrine\Type\NotificationSettingsIdType
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true

@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\GuidType;
 use Neuron\BuildingBlocks\Domain\BaseId;
 use Symfony\Component\Uid\Uuid;
 
+// TODO: move to neuron/building-blocks
 abstract class AbstractIdType extends GuidType
 {
     abstract public static function getIdClass(): string;

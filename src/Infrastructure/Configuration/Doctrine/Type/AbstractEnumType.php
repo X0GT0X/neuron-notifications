@@ -7,6 +7,7 @@ namespace App\Infrastructure\Configuration\Doctrine\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
+// TODO: move to neuron/building-blocks
 abstract class AbstractEnumType extends Type
 {
     abstract public static function getEnumClass(): string;

@@ -15,7 +15,7 @@ class MerchantCreatedIntegrationEvent extends IntegrationEvent implements Receiv
     public function __construct(
         Uuid $id,
         \DateTimeImmutable $occurredOn,
-        private Uuid $merchantId,
+        public Uuid $merchantId,
     ) {
         parent::__construct($id, $occurredOn);
     }
