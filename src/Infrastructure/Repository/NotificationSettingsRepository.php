@@ -24,7 +24,7 @@ final class NotificationSettingsRepository extends ServiceEntityRepository imple
     public function getByMerchantId(MerchantId $merchantId): NotificationSettings
     {
         /** @var ?NotificationSettings $notificationSettings */
-        $notificationSettings = $this->findOneBy(['merchantId' => $merchantId->getValue()]);
+        $notificationSettings = $this->findOneBy(['merchantId' => $merchantId]);
 
         return $notificationSettings ?? throw new NotificationSettingsNotFoundException(\sprintf('Notification settings for merchant with id \'%s\' not found', $merchantId->getValue()));
     }
