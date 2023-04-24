@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Application\UpdateNotificationSettings;
+declare(strict_types=1);
+
+namespace App\Application\NotificationSettings\UpdateNotificationSettings;
 
 use App\Application\Contract\AbstractCommand;
 use Symfony\Component\Uid\Uuid;

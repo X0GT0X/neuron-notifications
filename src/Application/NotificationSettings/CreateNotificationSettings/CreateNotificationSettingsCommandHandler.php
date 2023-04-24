@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Application\CreateNotificationSettings;
+declare(strict_types=1);
+
+namespace App\Application\NotificationSettings\CreateNotificationSettings;
 
 use App\Application\Configuration\Command\CommandHandlerInterface;
 use App\Domain\NotificationSettings\MerchantId;

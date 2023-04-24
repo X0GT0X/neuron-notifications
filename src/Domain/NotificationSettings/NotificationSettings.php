@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\NotificationSettings;
 
 use App\Domain\NotificationSettings\Event\NotificationSettingsCreatedDomainEvent;
@@ -22,14 +24,6 @@ class NotificationSettings extends Entity implements AggregateRootInterface
 
     private ?\DateTimeImmutable $updatedAt = null;
 
-    public function update(?string $paymentSuccessUrl = null, ?string $paymentFailureUrl = null): void
-    {
-        $this->paymentSuccessUrl = $paymentSuccessUrl ?? $this->paymentSuccessUrl;
-        $this->paymentFailureUrl = $paymentFailureUrl ?? $this->paymentFailureUrl;
-
-        $this->updatedAt = new \DateTimeImmutable();
-    }
-
     private function __construct(MerchantId $merchantId, NotificationSettingsCounterInterface $notificationSettingsCounter)
     {
         $this->checkRule(new NotificationSettingsPerMerchantIdShouldBeUniqueRule($merchantId, $notificationSettingsCounter));
@@ -44,5 +38,13 @@ class NotificationSettings extends Entity implements AggregateRootInterface
     public static function createNew(MerchantId $merchantId, NotificationSettingsCounterInterface $notificationSettingsCounter): self
     {
         return new self($merchantId, $notificationSettingsCounter);
+    }
+
+    public function update(?string $paymentSuccessUrl = null, ?string $paymentFailureUrl = null): void
+    {
+        $this->paymentSuccessUrl = $paymentSuccessUrl ?? $this->paymentSuccessUrl;
+        $this->paymentFailureUrl = $paymentFailureUrl ?? $this->paymentFailureUrl;
+
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

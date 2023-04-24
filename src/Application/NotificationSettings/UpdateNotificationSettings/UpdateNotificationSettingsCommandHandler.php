@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Application\UpdateNotificationSettings;
+declare(strict_types=1);
+
+namespace App\Application\NotificationSettings\UpdateNotificationSettings;
 
 use App\Application\Configuration\Command\CommandHandlerInterface;
 use App\Domain\NotificationSettings\Exception\NotificationSettingsNotFoundException;
@@ -11,8 +13,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 readonly class UpdateNotificationSettingsCommandHandler implements CommandHandlerInterface
 {
-    public function __construct(private NotificationSettingsRepositoryInterface $notificationSettingsRepository)
-    {
+    public function __construct(
+        private NotificationSettingsRepositoryInterface $notificationSettingsRepository
+    ) {
     }
 
     /**
@@ -20,7 +23,7 @@ readonly class UpdateNotificationSettingsCommandHandler implements CommandHandle
      */
     public function __invoke(UpdateNotificationSettingsCommand $command): void
     {
-        $notificationSettings = $this->notificationSettingsRepository->getByMerchantId(new MerchantId($command->merchantId));
+        $notificationSettings = $this->notificationSettingsRepository->getByMerchantId(new MerchantId((string) $command->merchantId));
 
         $notificationSettings->update($command->paymentSuccessUrl, $command->paymentFailureUrl);
     }

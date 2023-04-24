@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\NotificationSettings\Rule;
 
 use App\Domain\NotificationSettings\MerchantId;
@@ -26,6 +28,6 @@ class NotificationSettingsPerMerchantIdShouldBeUniqueRule extends AbstractBusine
 
     public function getMessageArguments(): array
     {
-        return [$this->merchantId->getValue()];
+        return [(string) $this->merchantId->getValue()];
     }
 }
