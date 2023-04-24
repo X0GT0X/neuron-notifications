@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\NotificationSettings;
 
 use App\Domain\NotificationSettings\Event\NotificationSettingsCreatedDomainEvent;
+use App\Domain\NotificationSettings\Event\NotificationSettingsUpdatedDomainEvent;
 use App\Domain\NotificationSettings\Rule\NotificationSettingsPerMerchantIdShouldBeUniqueRule;
 use Neuron\BuildingBlocks\Domain\AggregateRootInterface;
 use Neuron\BuildingBlocks\Domain\Entity;
@@ -46,5 +47,12 @@ class NotificationSettings extends Entity implements AggregateRootInterface
         $this->paymentFailureUrl = $paymentFailureUrl ?? $this->paymentFailureUrl;
 
         $this->updatedAt = new \DateTimeImmutable();
+
+        $this->addDomainEvent(new NotificationSettingsUpdatedDomainEvent(
+            $this->id,
+            $this->merchantId,
+            $this->paymentSuccessUrl,
+            $this->paymentFailureUrl,
+        ));
     }
 }
