@@ -35,3 +35,45 @@ jobs:
 
             - name: PHP Stan
               run: composer run-script php-stan
+    
+    unit-tests:
+        name: Unit Tests
+
+        needs: static-analysis
+
+        runs-on: ubuntu-20.04
+
+        steps:
+            -   uses: actions/checkout@v3
+
+            -   name: Validate composer.json and composer.lock
+                run: composer validate --strict
+
+            -   name: Cache Composer packages
+                id: composer-cache
+                uses: actions/cache@v3
+                with:
+                    path: vendor
+                    key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: |
+                        ${{ runner.os }}-php-
+            -   name: Install dependencies
+                run: composer install --prefer-dist --no-progress
+
+            -   name: Testing
+                uses: php-actions/phpunit@v3
+                env:
+                    XDEBUG_MODE: coverage
+                with:
+                    bootstrap: vendor/autoload.php
+                    configuration: phpunit.xml.dist
+                    php_extensions: xdebug
+                    args: tests/UnitTest --coverage-clover ./clover.xml
+
+            -   name: Code coverage
+                uses: codecov/codecov-action@v3
+                with:
+                    token: ${{ secrets.CODE_COV_TOKEN }}
+                    files: ./clover.xml
+                    fail_ci_if_error: true
+                    verbose: true
