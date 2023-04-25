@@ -21,7 +21,11 @@ jobs:
             run: docker compose -f docker-compose.ci.yml pull
         
           -   name: Start services
-              run: docker compose -f docker-compose.ci.yml up -d --build
+              run: docker compose -f docker-compose.ci.yml up -d
+
+          -   name: Wait
+              run: sleep 30s
+              shell: bash
 
           -   name: Creating databases
               run: docker compose -f docker-compose.ci.yml exec php bin/console --env=test doctrine:database:create
