@@ -18,10 +18,10 @@ jobs:
             uses: actions/checkout@v3
           
           - name: Pull images
-            run: make -f CI.Makefile pull
+            run: docker compose -f docker-compose.ci.yml pull
         
           -   name: Start services
-              run: make -f CI.Makefile up
+              run: docker compose -f docker-compose.ci.yml up -d --build
 
           -   name: Wait for services
               run: |
