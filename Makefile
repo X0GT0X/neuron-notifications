@@ -88,6 +88,10 @@ php-stan-baseline:
 	$(PHP_CONT) vendor/bin/phpstan analyse --generate-baseline
 
 ## —— Testing` 🚀 ——————————————————————————————————————————————————————————————
+integration-tests-init:
+	$(SYMFONY) --env=test doctrine:database:create
+	$(SYMFONY) --env=test d:m:m --dry-run
+
 test-unit:
 	$(PHP_CONT) php bin/phpunit
 
@@ -96,6 +100,9 @@ test-unit-coverage: ## Works only if application was started with XDEBUG_MODE=co
 
 test-unit-coverage-report: ## Works only if application was started with XDEBUG_MODE=coverage env variable (see make up-with-coverage)
 	$(PHP_CONT) bin/phpunit --coverage-html tests/.coverage
+
+test-integration:
+	$(PHP_CONT) php bin/phpunit tests/IntegrationTest
 
 ssl-certs:
 	mkcert -cert-file docker/proxy/certs/local-cert.pem -key-file docker/proxy/certs/local-key.pem "neuron.localhost" "*.neuron.localhost" "neuron.local" "*.neuron.local"
