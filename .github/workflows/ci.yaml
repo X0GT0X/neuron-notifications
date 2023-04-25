@@ -23,16 +23,11 @@ jobs:
           -   name: Start services
               run: docker compose -f docker-compose.ci.yml up -d --build
 
-          -   name: Wait for services
-              run: |
-                  while status="$(docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" "$(docker compose ps -q php)")"; do
-                    case $status in
-                      starting) sleep 1;;
-                      healthy) exit 0;;
-                      unhealthy) exit 1;;
-                    esac
-                  done
-                  exit 1
+          -   name: Creating databases
+              run: docker compose -f docker-compose.ci.yml exec php bin/console --env=test doctrine:database:create
+
+          -   name: Run migrations
+              run: docker compose -f docker-compose.ci.yml exec php bin/console --env=test d:m:m --dry-run
     
     static-analysis:
         name: Static Analysis
@@ -71,7 +66,8 @@ jobs:
         runs-on: ubuntu-20.04
 
         steps:
-            -   uses: actions/checkout@v3
+            -   name: Checkout
+                uses: actions/checkout@v3
 
             -   name: Validate composer.json and composer.lock
                 run: composer validate --strict
@@ -104,3 +100,17 @@ jobs:
                     files: ./clover.xml
                     fail_ci_if_error: true
                     verbose: true
+    
+    integration-tests:
+        name: Integration Tests
+
+        needs: build
+
+        runs-on: ubuntu-20.04
+        
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v3
+            
+            -   name: Testing
+                run: docker compose -f docker-compose.ci.yml exec php bin/phpunit tests/IntegrationTest
