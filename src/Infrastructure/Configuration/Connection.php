@@ -9,6 +9,7 @@ use App\Application\Configuration\Connection\DTOTransformingException;
 use App\Application\Configuration\Connection\NotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 
+// TODO: move to neuron/building-blocks
 readonly class Connection implements ConnectionInterface
 {
     private \Doctrine\DBAL\Connection $connection;

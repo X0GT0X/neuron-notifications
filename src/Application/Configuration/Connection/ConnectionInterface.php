@@ -6,6 +6,7 @@ namespace App\Application\Configuration\Connection;
 
 use Doctrine\DBAL\Exception;
 
+// TODO: move to neuron/building-blocks
 interface ConnectionInterface
 {
     /**
