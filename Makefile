@@ -93,13 +93,13 @@ integration-tests-init:
 	$(SYMFONY) --env=test d:m:m --dry-run
 
 test-unit:
-	$(PHP_CONT) php bin/phpunit
+	$(PHP_CONT) php bin/phpunit tests/UnitTest
 
 test-unit-coverage: ## Works only if application was started with XDEBUG_MODE=coverage env variable (see make up-with-coverage)
-	$(PHP_CONT) bin/phpunit --coverage-text
+	$(PHP_CONT) bin/phpunit tests/UnitTest --coverage-text
 
 test-unit-coverage-report: ## Works only if application was started with XDEBUG_MODE=coverage env variable (see make up-with-coverage)
-	$(PHP_CONT) bin/phpunit --coverage-html tests/.coverage
+	$(PHP_CONT) bin/phpunit tests/UnitTest --coverage-html tests/.coverage
 
 test-integration:
 	$(PHP_CONT) php bin/phpunit tests/IntegrationTest
