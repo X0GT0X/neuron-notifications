@@ -24,9 +24,12 @@ jobs:
               run: docker compose -f docker-compose.ci.yml up -d
 
           -   name: Wait
-              run: sleep 5s
+              run: sleep 10s
               shell: bash
-
+              
+          -   name: Logs
+              run: docker logs "${{ job.services.php.id }}"
+              
           -   name: Creating databases
               run: docker compose -f docker-compose.ci.yml exec php bin/console doctrine:database:create && docker compose -f docker-compose.ci.yml exec php bin/console --env=test doctrine:database:create
 
