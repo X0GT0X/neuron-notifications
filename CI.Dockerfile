@@ -9,6 +9,15 @@ FROM composer/composer:2-bin AS composer
 
 FROM mlocati/php-extension-installer:latest AS php_extension_installer
 
+# Build Caddy with the Mercure and Vulcain modules
+FROM caddy:2.6-builder-alpine AS app_caddy_builder
+
+RUN xcaddy build \
+	--with github.com/dunglas/mercure \
+	--with github.com/dunglas/mercure/caddy \
+	--with github.com/dunglas/vulcain \
+	--with github.com/dunglas/vulcain/caddy
+
 # Prod image
 FROM php:8.2-fpm-alpine AS app_php
 
@@ -61,6 +70,11 @@ COPY --link docker/php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/
 COPY --link docker/php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 RUN mkdir -p /var/run/php
 
+COPY --link docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
+RUN chmod +x /usr/local/bin/docker-healthcheck
+
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
+
 COPY --link docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
@@ -112,3 +126,12 @@ RUN set -eux; \
     ;
 
 RUN rm -f .env.local.php
+
+# Caddy image
+FROM caddy:2.6-alpine AS app_caddy
+
+WORKDIR /srv/app
+
+COPY --from=app_caddy_builder --link /usr/bin/caddy /usr/bin/caddy
+COPY --from=app_php --link /srv/app/public public/
+COPY --link docker/caddy/Caddyfile /etc/caddy/Caddyfile
