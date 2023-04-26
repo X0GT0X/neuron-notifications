@@ -28,7 +28,7 @@ jobs:
               shell: bash
               
           -   name: Logs
-              run: docker logs "${{ job.services.php.id }}"
+              uses: jwalton/gh-docker-logs@v2
               
           -   name: Creating databases
               run: docker compose -f docker-compose.ci.yml exec php bin/console doctrine:database:create && docker compose -f docker-compose.ci.yml exec php bin/console --env=test doctrine:database:create
