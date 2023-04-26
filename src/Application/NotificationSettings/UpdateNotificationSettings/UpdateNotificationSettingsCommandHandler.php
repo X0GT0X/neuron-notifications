@@ -11,7 +11,7 @@ use App\Domain\NotificationSettings\NotificationSettingsRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-readonly class UpdateNotificationSettingsCommandHandler implements CommandHandlerInterface
+final readonly class UpdateNotificationSettingsCommandHandler implements CommandHandlerInterface
 {
     public function __construct(
         private NotificationSettingsRepositoryInterface $notificationSettingsRepository
