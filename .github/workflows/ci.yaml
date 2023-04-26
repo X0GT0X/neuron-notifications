@@ -25,6 +25,7 @@ jobs:
                 with:
                     context: .
                     file: CI.Dockerfile
+                    target: app_php_dev
                     tags: php:latest
                     outputs: type=docker,dest=/tmp/php.tar
 
@@ -54,6 +55,7 @@ jobs:
                     key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
                     restore-keys: |
                         ${{ runner.os }}-php-
+
             -   name: Install dependencies
                 run: composer install --prefer-dist --no-progress
 
@@ -139,7 +141,7 @@ jobs:
                 run: docker compose -f docker-compose.ci.yml exec php bin/console doctrine:database:create && docker compose -f docker-compose.ci.yml exec php bin/console --env=test doctrine:database:create
 
             -   name: Run migrations
-                run: docker compose -f docker-compose.ci.yml exec php bin/console --env=test d:m:m --dry-run
+                run: docker compose -f docker-compose.ci.yml exec php bin/console --env=test doctrine:schema:create
 
             -   name: Testing
                 run: docker compose -f docker-compose.ci.yml exec php bin/phpunit tests/IntegrationTest
