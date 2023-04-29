@@ -37,7 +37,7 @@ final readonly class NotificationSettingsController
     #[Route('/merchants/{merchantId}/notification-settings', methods: ['GET'])]
     public function getNotificationSettings(Uuid $merchantId): JsonResponse
     {
-        $notificationSettings = $this->notificationsModule->executeCQuery(new GetNotificationSettingsQuery($merchantId));
+        $notificationSettings = $this->notificationsModule->executeQuery(new GetNotificationSettingsQuery($merchantId));
 
         return new JsonResponse(
             $this->serializer->serialize($notificationSettings, 'json'),

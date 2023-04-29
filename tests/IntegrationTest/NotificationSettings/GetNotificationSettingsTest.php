@@ -19,7 +19,7 @@ class GetNotificationSettingsTest extends IntegrationTestCase
 
         $this->notificationsModule->executeCommand(new CreateNotificationSettingsCommand($merchantId));
 
-        $notificationSettings = $this->notificationsModule->executeCQuery(new GetNotificationSettingsQuery($merchantId));
+        $notificationSettings = $this->notificationsModule->executeQuery(new GetNotificationSettingsQuery($merchantId));
 
         $this->assertInstanceOf(NotificationSettingsDTO::class, $notificationSettings);
         $this->assertNull($notificationSettings->paymentSuccessUrl);
@@ -33,6 +33,6 @@ class GetNotificationSettingsTest extends IntegrationTestCase
         $this->expectException(NotificationSettingsNotFoundException::class);
         $this->expectExceptionMessage(\sprintf('Notification settings for merchant with id \'%s\' not found', $merchantId));
 
-        $this->notificationsModule->executeCQuery(new GetNotificationSettingsQuery($merchantId));
+        $this->notificationsModule->executeQuery(new GetNotificationSettingsQuery($merchantId));
     }
 }

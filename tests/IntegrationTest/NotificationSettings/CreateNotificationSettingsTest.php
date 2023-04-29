@@ -19,7 +19,7 @@ class CreateNotificationSettingsTest extends IntegrationTestCase
         $this->notificationsModule->executeCommand(new CreateNotificationSettingsCommand($merchantId));
 
         /** @var NotificationSettingsDTO $notificationSettings */
-        $notificationSettings = $this->notificationsModule->executeCQuery(new GetNotificationSettingsQuery($merchantId));
+        $notificationSettings = $this->notificationsModule->executeQuery(new GetNotificationSettingsQuery($merchantId));
 
         $this->assertNull($notificationSettings->paymentSuccessUrl);
         $this->assertNull($notificationSettings->paymentFailureUrl);

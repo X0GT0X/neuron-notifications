@@ -26,7 +26,7 @@ class UpdateNotificationSettingsTest extends IntegrationTestCase
         ));
 
         /** @var NotificationSettingsDTO $notificationSettings */
-        $notificationSettings = $this->notificationsModule->executeCQuery(new GetNotificationSettingsQuery($merchantId));
+        $notificationSettings = $this->notificationsModule->executeQuery(new GetNotificationSettingsQuery($merchantId));
 
         $this->assertEquals('https://merchant.com/payment-success', $notificationSettings->paymentSuccessUrl);
         $this->assertEquals('https://merchant.com/payment-failure', $notificationSettings->paymentFailureUrl);

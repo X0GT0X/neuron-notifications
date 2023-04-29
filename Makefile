@@ -103,6 +103,3 @@ test-unit-coverage-report: ## Works only if application was started with XDEBUG_
 
 test-integration:
 	$(PHP_CONT) php bin/phpunit tests/IntegrationTest
-
-ssl-certs:
-	mkcert -cert-file docker/proxy/certs/local-cert.pem -key-file docker/proxy/certs/local-key.pem "neuron.localhost" "*.neuron.localhost" "neuron.local" "*.neuron.local"
